@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Z-Library 是全球最大的数字图书馆，提供数百万本免费电子书，涵盖文学、学术、小说、科技等各类资源。支持中文搜索与阅读，探索知识的海洋。">
+    <meta name="keywords" content="Z-Library,电子书,免费下载,数字图书馆,epub下载,PDF电子书,中文电子书,在线阅读,知识库">
+    <meta name="author" content="Z-Library 中文社区">
+    <meta name="robots" content="index, follow">
+
+    <title>Z-Library | 全球最大的数字图书馆 · 免费电子书下载</title>
+    <!-- 字体与图标库 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background: #fafbfc;
+            color: #1e2a3e;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        /* 容器约束 */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* 头部样式 */
+        .header {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(2px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03), 0 4px 12px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .logo a {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1f3e5c, #2b5a7a);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-decoration: none;
+            letter-spacing: -0.3px;
+        }
+
+        .logo span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #5b7f9c;
+            background: none;
+            -webkit-background-clip: unset;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #2c4b6e;
+            transition: color 0.2s;
+            font-size: 1rem;
+        }
+
+        .nav-links a:hover {
+            color: #0f2c3f;
+            text-decoration: underline;
+        }
+
+        .btn-outline {
+            border: 1.5px solid #2c6e9e;
+            padding: 6px 16px;
+            border-radius: 40px;
+            background: transparent;
+            font-weight: 600;
+        }
+
+        .btn-outline:hover {
+            background: #eef3fc;
+            text-decoration: none !important;
+        }
+
+        /* hero区域 + 搜索 */
+        .hero {
+            padding: 56px 0 48px;
+            background: linear-gradient(145deg, #ffffff 0%, #f4f9fe 100%);
+            border-bottom: 1px solid #e2edf7;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            background: linear-gradient(145deg, #1e3a5f, #2c6e9e);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero .tagline {
+            font-size: 1.25rem;
+            color: #2c3e50d9;
+            margin-bottom: 32px;
+            font-weight: 400;
+        }
+
+        .stat-badge {
+            display: inline-flex;
+            background: #eef2f7;
+            padding: 6px 16px;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            color: #1f6392;
+            margin-bottom: 28px;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .search-box {
+            background: white;
+            border-radius: 60px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4px 4px 4px 24px;
+            border: 1px solid #cfdfed;
+            transition: all 0.2s;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            padding: 16px 8px 16px 0;
+            font-size: 1rem;
+            outline: none;
+            background: transparent;
+            font-weight: 400;
+        }
+
+        .search-box button {
+            background: #2c6e9e;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-box button:hover {
+            background: #1f557c;
+        }
+
+        .search-note {
+            font-size: 0.8rem;
+            color: #5a6e7c;
+            margin-top: 16px;
+        }
+
+        /* 通用标题 */
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 48px 0 28px 0;
+            text-align: center;
+            color: #173e5c;
+        }
+
+        .section-sub {
+            text-align: center;
+            color: #4a627a;
+            margin-top: -20px;
+            margin-bottom: 40px;
+        }
+
+        /* 书籍卡片网格 */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 28px;
+            margin: 32px 0 40px;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #e9f0f5;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 24px 36px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        .book-cover {
+            background: linear-gradient(135deg, #d9e6f2, #bdd7e8);
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #2c5a7a;
+        }
+
+        .book-info {
+            padding: 18px 16px 20px;
+        }
+
+        .book-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+            color: #1f3e5c;
+        }
+
+        .book-author {
+            font-size: 0.85rem;
+            color: #5b7d9e;
+            margin-bottom: 12px;
+        }
+
+        .book-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 0.7rem;
+            color: #7b8e9e;
+            margin-bottom: 16px;
+        }
+
+        .btn-card {
+            background: #eff5fa;
+            border: none;
+            padding: 8px 0;
+            width: 100%;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #2c6e9e;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.85rem;
+        }
+
+        .btn-card:hover {
+            background: #e0ecf5;
+            color: #1f557c;
+        }
+
+        /* 特色分类区域 */
+        .categories {
+            background: #ffffff;
+            border-radius: 48px;
+            padding: 32px 32px 24px;
+            margin: 40px 0 32px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.02);
+            border: 1px solid #ecf3f9;
+        }
+
+        .category-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 28px;
+            margin: 32px 0 16px;
+        }
+
+        .cat-item {
+            text-align: center;
+            min-width: 90px;
+            transition: transform 0.1s;
+            cursor: pointer;
+        }
+
+        .cat-icon {
+            background: #eef3fc;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 60px;
+            margin: 0 auto 10px;
+            font-size: 2rem;
+            color: #2c6e9e;
+            transition: all 0.2s;
+        }
+
+        .cat-item span:last-child {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .cat-item:hover .cat-icon {
+            background: #ddeeff;
+            transform: scale(1.03);
+        }
+
+        /* 优势卡片 */
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+            margin: 50px 0 48px;
+        }
+
+        .feature-card {
+            flex: 1;
+            background: white;
+            padding: 28px 18px;
+            border-radius: 28px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+            border: 1px solid #eef3fc;
+        }
+
+        .feature-card i {
+            font-size: 2.5rem;
+            color: #2f7ea3;
+            margin-bottom: 18px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+
+        /* 页脚 */
+        .footer {
+            background: #11212e;
+            color: #cbdbe2;
+            margin-top: 60px;
+            padding: 48px 0 32px;
+            font-size: 0.9rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+
+        .footer-logo h3 {
+            font-size: 1.6rem;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 48px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #b8cadc;
+            text-decoration: none;
+            margin-right: 28px;
+            line-height: 1.8;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            border-top: 1px solid #2a3f4f;
+            padding-top: 28px;
+            font-size: 0.8rem;
+        }
+
+        button, .cat-item, .btn-card {
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .search-box {
+                flex-direction: column;
+                background: transparent;
+                box-shadow: none;
+                padding: 0;
+                gap: 12px;
+            }
+            .search-box input {
+                background: white;
+                border-radius: 60px;
+                padding: 14px 20px;
+                border: 1px solid #cfdfed;
+                width: 100%;
+            }
+            .search-box button {
+                width: 100%;
+                justify-content: center;
+            }
+            .nav-bar {
+                flex-direction: column;
+            }
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .books-grid {
+                gap: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="container">
+        <div class="nav-bar">
+            <div class="logo">
+                <a href="/">Z-Library</a>
+            </div>
+            <div class="nav-links">
+                <a href="#" id="navExplore">探索</a>
+                <a href="#" id="navCategories">分类</a>
+                <a href="#" id="navCommunity">社区</a>
+                <a href="#" id="navHelp">帮助</a>
+                <a href="#" class="btn-outline" id="loginBtn">登录 / 注册</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    <!-- hero + 搜索 -->
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="stat-badge">
+                <i class="fas fa-book-open"></i> 超过 1,200 万本电子书
+                <i class="fas fa-users" style="margin-left: 12px;"></i> 全球 800 万+ 读者
+            </div>
+            <h1>无界阅读 · 智识自由</h1>
+            <p class="tagline">Z-Library中文站 — 发现、下载、分享知识。学术论文、经典文学、前沿科技，全部免费获取。</p>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="输入书名、作者或 ISBN...  例：三体、百年孤独" aria-label="搜索电子书">
+                <button id="searchBtn"><i class="fas fa-search"></i> 搜索书籍</button>
+            </div>
+            <p class="search-note"><i class="fas fa-info-circle"></i> 数百万资源即刻探索 — 体验搜索演示，正式检索请直接访问官方库</p>
+        </div>
+    </section>
+
+    <!-- 热门书籍推荐区域 -->
+    <div class="container">
+        <h2 class="section-title">📖 热门中文精选</h2>
+        <p class="section-sub">本周读者高分推荐 · 文学与新知</p>
+        <div class="books-grid" id="booksGrid">
+            <!-- 动态卡片 静态演示数据 -->
+        </div>
+    </div>
+
+    <!-- 特色分类 -->
+    <div class="container">
+        <div class="categories">
+            <h2 style="text-align: center; margin-bottom: 8px;">📚 海量分类 · 精准筛选</h2>
+            <div class="category-list">
+                <div class="cat-item" data-cat="文学">
+                    <div class="cat-icon"><i class="fas fa-feather-alt"></i></div>
+                    <span>文学经典</span>
+                </div>
+                <div class="cat-item" data-cat="科技">
+                    <div class="cat-icon"><i class="fas fa-microchip"></i></div>
+                    <span>科技工程</span>
+                </div>
+                <div class="cat-item" data-cat="学术">
+                    <div class="cat-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <span>学术论文</span>
+                </div>
+                <div class="cat-item" data-cat="历史">
+                    <div class="cat-icon"><i class="fas fa-landmark"></i></div>
+                    <span>历史传记</span>
+                </div>
+                <div class="cat-item" data-cat="经济">
+                    <div class="cat-icon"><i class="fas fa-chart-line"></i></div>
+                    <span>经济管理</span>
+                </div>
+                <div class="cat-item" data-cat="少儿">
+                    <div class="cat-icon"><i class="fas fa-child"></i></div>
+                    <span>少儿启蒙</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 三大特色优势 -->
+    <div class="container">
+        <div class="features">
+            <div class="feature-card">
+                <i class="fas fa-infinity"></i>
+                <h3>无限制访问</h3>
+                <p>无需付费，每日可下载海量书籍，支持PDF、EPUB、MOBI多种格式。</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-globe-asia"></i>
+                <h3>多语言资源</h3>
+                <p>涵盖中文、英文、日文等80+种语言，便捷切换阅读体验。</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-rocket"></i>
+                <h3>极速推荐引擎</h3>
+                <p>智能算法为您推送高评分学术作品与热门小说。</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h3>Z-Library 中文</h3>
+                <p>知识不应被围墙阻隔</p>
+            </div>
+            <div class="footer-links">
+                <div>
+                    <a href="#" id="aboutLink">关于我们</a><br>
+                    <a href="#" id="privacyLink">隐私条款</a>
+                </div>
+                <div>
+                    <a href="#" id="dmcaLink">版权声明</a><br>
+                    <a href="#" id="supportLink">支持正版倡议</a>
+                </div>
+                <div>
+                    <a href="#" id="contactLink">帮助中心</a><br>
+                    <a href="#" id="apiLink">API 开发者</a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2025 Z-Library 中文演示站 | 尊重知识产权，推荐购买正版书籍。本站为技术展示，所有资源版权归原作者所有，搜索功能仅示意。</p>
+            <p style="margin-top: 8px;"><i class="fas fa-heart" style="color: #bf9f6e;"></i> 让阅读点亮世界 · 非官方公益项目</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // 模拟书籍数据
+    const booksData = [
+        { title: "三体：黑暗森林", author: "刘慈欣", format: "EPUB, PDF", year: "2008", icon: "fas fa-star-of-life" },
+        { title: "你当像鸟飞往你的山", author: "塔拉·韦斯特弗", format: "MOBI, EPUB", year: "2018", icon: "fas fa-feather" },
+        { title: "原子习惯", author: "詹姆斯·克利尔", format: "PDF, EPUB", year: "2018", icon: "fas fa-chart-simple" },
+        { title: "百年孤独", author: "加西亚·马尔克斯", format: "EPUB, PDF", year: "1967", icon: "fas fa-tree" },
+        { title: "Python编程 从入门到实践", author: "埃里克·马瑟斯", format: "PDF, EPUB", year: "2015", icon: "fab fa-python" },
+        { title: "人类简史", author: "尤瓦尔·赫拉利", format: "PDF, MOBI", year: "2011", icon: "fas fa-globe" },
+        { title: "置身事内", author: "兰小欢", format: "EPUB", year: "2021", icon: "fas fa-city" },
+        { title: "克拉拉与太阳", author: "石黑一雄", format: "PDF, EPUB", year: "2021", icon: "fas fa-sun" }
+    ];
+
+    function renderBooks() {
+        const grid = document.getElementById('booksGrid');
+        if(!grid) return;
+        grid.innerHTML = '';
+        booksData.forEach(book => {
+            const card = document.createElement('div');
+            card.className = 'book-card';
+            card.innerHTML = `
+                <div class="book-cover">
+                    <i class="${book.icon}" style="font-size: 3rem;"></i>
+                </div>
+                <div class="book-info">
+                    <div class="book-title">${book.title}</div>
+                    <div class="book-author">${book.author}</div>
+                    <div class="book-meta"><span>${book.format}</span><span>${book.year}</span></div>
+                    <button class="btn-card demo-download" data-title="${book.title}"><i class="fas fa-download"></i> 获取电子书</button>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        // 绑定卡片按钮事件
+        document.querySelectorAll('.demo-download').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const title = btn.getAttribute('data-title') || '该书';
+                alert(`📖 演示提示：《${title}》在 Z-Library 可免费下载。\n（本界面为作品展示，完整功能请访问官方网站。）`);
+            });
+        });
+    }
+
+    // 搜索模拟
+    function handleSearch() {
+        const query = document.getElementById('searchInput').value.trim();
+        if(query === "") {
+            alert("🔍 请输入书名或作者关键词，体验搜索演示。例如：三体、历史、AI");
+        } else {
+            alert(`✨ 您在 Z-Library 中搜索：“${query}”\n找到相关电子书约 2,345 本。\n（演示模式，完整搜索请访问真实数据库。）`);
+        }
+    }
+
+    // 通用演示弹窗
+    function demoAlert(message) {
+        alert(message);
+    }
+
+    // 为所有导航、分类等绑定提示事件
+    function bindDemoEvents() {
+        const navs = ['navExplore', 'navCategories', 'navCommunity', 'navHelp', 'loginBtn'];
+        navs.forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.addEventListener('click', (e) => {
+                e.preventDefault();
+                demoAlert("🚀 探索 Z-Library 完整功能 — 海量资源待您发现。当前为中文演示界面，所有链接仅供展示。");
+            });
+        });
+
+        // 分类点击模拟
+        const catItems = document.querySelectorAll('.cat-item');
+        catItems.forEach(cat => {
+            cat.addEventListener('click', (e) => {
+                const category = cat.querySelector('span:last-child')?.innerText || '图书';
+                demoAlert(`📂 您选择了分类：“${category}”。 Z-Library 中收录了超过 80 万本${category}相关电子书，欢迎探索。`);
+            });
+        });
+
+        // 页脚链接
+        const footerLinks = ['aboutLink', 'privacyLink', 'dmcaLink', 'supportLink', 'contactLink', 'apiLink'];
+        footerLinks.forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.addEventListener('click', (e) => {
+                e.preventDefault();
+                demoAlert("📚 本页面为Z-Library技术展示项目。我们鼓励读者尊重版权，并通过正规渠道支持作者。");
+            });
+        });
+    }
+
+    // 额外书籍卡片hover友好
+    function enhanceUI() {
+        const searchBtn = document.getElementById('searchBtn');
+        const searchInput = document.getElementById('searchInput');
+        if(searchBtn) searchBtn.addEventListener('click', handleSearch);
+        if(searchInput) searchInput.addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') handleSearch();
+        });
+    }
+
+    // 初始化所有渲染和行为
+    renderBooks();
+    bindDemoEvents();
+    enhanceUI();
+
+    // 添加简单的控制台提示，符合SEO开发友好
+    console.log("Z-Library 中文主页 | 知识无界 — 演示项目满足TDK & 响应式设计");
+</script>
+</body>
+</html>
