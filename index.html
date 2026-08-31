@@ -616,23 +616,25 @@
             grid.appendChild(card);
         });
 
-        // 绑定卡片按钮事件
+        // 绑定卡片按钮事件：触发搜索
         document.querySelectorAll('.demo-download').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const title = btn.getAttribute('data-title') || '该书';
-                alert(`📖 演示提示：《${title}》在 Z-Library 可免费下载。\n（本界面为作品展示，完整功能请访问官方网站。）`);
+                const title = btn.getAttribute('data-title') || '';
+                const searchInput = document.getElementById('searchInput');
+                if(searchInput && title) searchInput.value = title;
+                handleSearch();
             });
         });
     }
 
-    // 搜索模拟
+    // 搜索跳转
     function handleSearch() {
         const query = document.getElementById('searchInput').value.trim();
         if(query === "") {
-            alert("🔍 请输入书名或作者关键词，体验搜索演示。例如：三体、历史、AI");
+            alert("🔍 请输入书名或作者关键词，例如：三体、历史、AI");
         } else {
-            alert(`✨ 您在 Z-Library 中搜索：“${query}”\n找到相关电子书约 2,345 本。\n（演示模式，完整搜索请访问真实数据库。）`);
+            window.location.href = `https://www.chendianrong.com/?s=${encodeURIComponent(query)}`;
         }
     }
 
